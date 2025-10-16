@@ -62,31 +62,3 @@ ALTER TABLE Produto
 ADD CONSTRAINT fk_produto_fornecedor
 FOREIGN KEY (id_forne_fk) REFERENCES Fornecedor(id_forne);
 
----- Inserindo fornecedores
---INSERT INTO
-
---  fornecedor (nome_forne)
---VALUES
---  ('Fornecedor Alpha'),
---  ('Fornecedor Beta'),
---  ('Fornecedor Gamma'),
---  ('Fornecedor Delta');
-
----- Inserindo produtos vinculados aos fornecedores
---INSERT INTO
---  produto (
---id_forne_fk,
---nome_prod,
---codigo_prod,
---quantidade_prod,
---valor_prod
--- )
--- VALUES
---  (1, 'Notebook X', 'Notebook de alto desempenho com 16GB RAM e SSD 512GB', 10, 4500.00),
---  (1, 'Mouse Óptico', 'Mouse com fio, 1200 DPI', 50, 45.90),
---  (2, 'Smartphone Y', 'Smartphone 6.5 polegadas, 128GB', 20, 2100.00),
---  (2, 'Carregador Rápido', 'Carregador USB-C 25W', 100, 89.90),
---  (3, 'Cadeira Gamer', 'Cadeira ergonômica ajustável', 15, 1250.00),
---  (3, 'Mesa de Escritório', 'Mesa em L com suporte para monitor', 8, 980.00),
---  (4, 'Monitor 27"', 'Monitor LED Full HD 27 polegadas', 12, 1150.00),
---  (4, 'Teclado Mecânico', 'Teclado RGB switch blue', 30, 350.00);

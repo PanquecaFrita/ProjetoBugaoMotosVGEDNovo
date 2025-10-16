@@ -1,2 +1,100 @@
-﻿body {
+﻿/* Reset básico */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Fundo geral */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+}
+
+/* Container geral */
+.container {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Cabeçalho com fundo vermelho */
+.header {
+    background-color: #d90000; /* vermelho forte */
+    color: white;
+    text-align: center;
+    padding: 30px 0;
+}
+
+/* Navegação dentro do header */
+.nav a {
+    color: white;
+    text-decoration: none;
+    margin: 0 15px;
+    font-weight: bold;
+    transition: 0.3s;
+}
+
+    .nav a:hover {
+        text-decoration: underline;
+    }
+
+/* Parte principal */
+.main {
+    flex: 1;
+    padding: 40px;
+    text-align: center;
+}
+
+/* Seção destaque (hero) */
+.hero {
+    background: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 40px;
+}
+
+.btn {
+    background-color: #d90000;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    margin-top: 15px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+    .btn:hover {
+        background-color: #a70000;
+    }
+
+/* Cards */
+.cards {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 250px;
+    box-shadow: 0 0 8px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s;
+}
+
+    .card:hover {
+        transform: translateY(-5px);
+    }
+
+/* Rodapé */
+.footer {
+    background-color: #d90000;
+    color: white;
+    text-align: center;
+    padding: 15px 0;
 }
