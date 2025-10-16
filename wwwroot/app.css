@@ -66,3 +66,45 @@ seta´para cima e baixo
 .nav-link[aria-expanded="true"] .bi-caret-down-fill {
     transform: rotate(180deg);
 }
+
+/* Ícone dos três pontinhos / menu */
+.menu-btn {
+    font-size: 24px;
+    color: white;
+    cursor: pointer;
+    user-select: none;
+    transition: color 0.3s;
+}
+
+    .menu-btn:hover {
+        color: #adb5bd;
+    }
+
+/* Esconde o checkbox controlador */
+#menu-toggle {
+    display: none;
+}
+
+/* Sidebar oculta por padrão */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: -250px;
+    width: 250px;
+    height: 100vh;
+    background-color: #212529;
+    color: white;
+    transition: left 0.3s ease;
+    z-index: 1000;
+}
+
+/* Mostra a sidebar quando o checkbox é marcado */
+#menu-toggle:checked ~ .container-fluid .sidebar {
+    left: 0;
+}
+
+/* Move o conteúdo para a direita quando o menu aparece */
+#menu-toggle:checked ~ .container-fluid main {
+    margin-left: 250px;
+    transition: margin 0.3s ease;
+}
