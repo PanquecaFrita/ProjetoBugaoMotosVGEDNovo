@@ -103,7 +103,16 @@ public class ProdutoDAO
         }
     }
 
+    public void Excluir(int id)
+    {
+        var comando = _conexao.CreateCommand(
+            "DELETE FROM produto WHERE id_prod = @_id;"
+        );
 
+        comando.Parameters.AddWithValue("@_id", id);
+        comando.ExecuteNonQuery();
+    }
+}
 
 }
 

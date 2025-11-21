@@ -1,7 +1,7 @@
 ﻿@page "/ConsultaCliente"
 
 @using AppBugaoMotoFVLE.Components.Models;
-@inject ClienteDAO ClienteDAO
+@inject ClienteDAO ClienteDAO;
 
 <div class="container-md pt-3">
     <div class="breadcrumb">
@@ -14,11 +14,6 @@
         <div class="search-bar">
             <input type="text" placeholder="Buscar">
 
-            <!-- BOTÃO EDITAR (no lugar do Filtrar) -->
-            <a href="/EditarCliente" class="btn btn-edit">
-                <i class="fi fi-rr-edit"></i> Editar
-            </a>
-
             <a href="/CadastroCliente" class="btn btn-add">
                 <i class="fi fi-sr-user-add"></i> Adicionar novo cliente
             </a>
@@ -27,7 +22,7 @@
         <table>
             <thead>
                 <tr>
-                    <th># </th>
+                    <th>#</th>
                     <th>Nome</th>
                     <th>Telefone</th>
                     <th>CPF</th>
@@ -36,22 +31,31 @@
             </thead>
             <tbody>
                 @{
-
                     int contador = 1;
-                    @foreach (var cliente in listaClie)
+
+                    foreach (var cliente in listaClie)
                     {
                         <tr>
                             <td>@contador</td>
                             <td>@cliente.Nome</td>
                             <td>@cliente.Telefone</td>
                             <td>@cliente.Cpf</td>
+
                             <td>
-                                <!-- BOTÃO EDITAR POR LINHA DO CLIENTE -->
-                                <a href="/EditarCliente/@cliente.IdCliente" class="btn-edit">
+                                <!-- OLHINHO (visualizar) -->
+                                <button class="btn-view"
+                                        @onclick="() => AbrirVisualizar(cliente.IdCliente)">
+                                    <i class="fi fi-rr-eye"></i>
+                                </button>
+
+                                <!-- LÁPIS (editar) -->
+                                <button class="btn-edit"
+                                        @onclick="() => AbrirEditar(cliente.IdCliente)">
                                     <i class="fi fi-rr-edit"></i>
-                                </a>
+                                </button>
                             </td>
                         </tr>
+
                         contador++;
                     }
                 }
@@ -60,8 +64,64 @@
     </div>
 </div>
 
+
+@* ---------------------- MODAL VISUALIZAR ---------------------- *@
+@if (modalVer)
+{
+    <div class="modal-bg">
+        <div class="modal-box">
+            <h3>Visualizar Cliente</h3>
+
+            <label>Nome</label>
+            <input class="form-control" value="@clienteSel.Nome" disabled />
+
+            <label>Telefone</label>
+            <input class="form-control" value="@clienteSel.Telefone" disabled />
+
+            <label>CPF</label>
+            <input class="form-control" value="@clienteSel.Cpf" disabled />
+
+            <div class="modal-buttons">
+                <button class="btn-close" @onclick="() => modalVer = false">Fechar</button>
+            </div>
+        </div>
+    </div>
+}
+
+
+@* ---------------------- MODAL EDITAR ---------------------- *@
+@if (modalEdit)
+{
+    <div class="modal-bg">
+        <div class="modal-box">
+            <h3>Editar Cliente</h3>
+
+            <label>Nome</label>
+            <input class="form-control" @bind="clienteSel.Nome" />
+
+            <label>Telefone</label>
+            <input class="form-control" @bind="clienteSel.Telefone" />
+
+            <label>CPF</label>
+            <input class="form-control" @bind="clienteSel.Cpf" />
+
+            <div class="modal-buttons">
+                <button class="btn-edit" @onclick="SalvarEdicao">Salvar</button>
+                <button class="btn-delete" @onclick="ExcluirCliente">Excluir</button>
+                <button class="btn-close" @onclick="() => modalEdit = false">Cancelar</button>
+            </div>
+        </div>
+    </div>
+}
+
+
+
 @code {
     private List<Cliente> listaClie = new();
+    private Cliente clienteSel = new();
+
+    private bool modalVer = false;
+    private bool modalEdit = false;
 
     protected override void OnInitialized()
     {
@@ -71,5 +131,31 @@
     private void CarregarCliente()
     {
         listaClie = ClienteDAO.ListarCliente();
+    }
+
+    private void AbrirVisualizar(int id)
+    {
+        clienteSel = ClienteDAO.BuscarClientePorId(id);
+        modalVer = true;
+    }
+
+    private void AbrirEditar(int id)
+    {
+        clienteSel = ClienteDAO.BuscarClientePorId(id);
+        modalEdit = true;
+    }
+
+    private void SalvarEdicao()
+    {
+        ClienteDAO.AtualizarCliente(clienteSel);
+        modalEdit = false;
+        CarregarCliente();
+    }
+
+    private void ExcluirCliente()
+    {
+        ClienteDAO.DeletarCliente(clienteSel.IdCliente);
+        modalEdit = false;
+        CarregarCliente();
     }
 }
