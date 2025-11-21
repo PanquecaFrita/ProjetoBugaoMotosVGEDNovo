@@ -21,30 +21,32 @@ table {
 
     table thead {
         background: #e6e9ed;
-        border-bottom: 2px solid #c7c7c7; /* Borda embaixo da aba */
+        border-bottom: 2px solid #c7c7c7;
     }
 
     table th, table td {
-        padding: 14px 18px; /* Mais espaço entre os textos */
+        padding: 14px 18px;
         text-align: left;
         border-bottom: 1px solid #ddd;
     }
 
-.btn-view {
-    background: #2c3e50;
+/* BOTÃO EDITAR */
+.btn-edit {
+    background: #f39c12;
     border: none;
-    padding: 6px 12px;
+    padding: 8px 14px;
     border-radius: 6px;
     color: white;
     cursor: pointer;
     transition: 0.3s;
-    display: flex;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
+    gap: 6px;
 }
 
-    .btn-view:hover {
-        background: #1a242f;
+    .btn-edit:hover {
+        background: #d68910;
     }
 
 .breadcrumb {
@@ -91,48 +93,10 @@ h2 {
     transition: 0.3s;
 }
 
-.btn-filter {
-    background: #2c3e50;
-}
-
-    .btn-filter:hover {
-        background: #1a242f;
-    }
-
 .btn-add {
     background: #34495e;
 }
 
     .btn-add:hover {
         background: #22313f;
-    }
-
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 10px;
-}
-
-    table thead {
-        background: #e6e9ed;
-    }
-
-    table th, table td {
-        padding: 12px;
-        text-align: left;
-        border-bottom: 1px solid #ddd;
-    }
-
-.btn-view {
-    background: #2c3e50;
-    border: none;
-    padding: 6px 12px;
-    border-radius: 6px;
-    color: white;
-    cursor: pointer;
-    transition: 0.3s;
-}
-
-    .btn-view:hover {
-        background: #1a242f;
     }

@@ -1,6 +1,5 @@
 ﻿@page "/ConsultaCliente"
 
-
 @using AppBugaoMotoFVLE.Components.Models;
 @inject ClienteDAO ClienteDAO
 
@@ -14,8 +13,15 @@
 
         <div class="search-bar">
             <input type="text" placeholder="Buscar">
-            <button class="btn btn-filter"><i class="fa-solid fa-filter"></i> Filtrar</button>
-            <a href="/CadastroCliente" class="btn btn-add"><i class="fi fi-sr-user-add"></i> Adicionar novo cliente</a>
+
+            <!-- BOTÃO EDITAR (no lugar do Filtrar) -->
+            <a href="/EditarCliente" class="btn btn-edit">
+                <i class="fi fi-rr-edit"></i> Editar
+            </a>
+
+            <a href="/CadastroCliente" class="btn btn-add">
+                <i class="fi fi-sr-user-add"></i> Adicionar novo cliente
+            </a>
         </div>
 
         <table>
@@ -30,37 +36,40 @@
             </thead>
             <tbody>
                 @{
+
                     int contador = 1;
                     @foreach (var cliente in listaClie)
                     {
                         <tr>
-                            <td> @contador </td>
+                            <td>@contador</td>
                             <td>@cliente.Nome</td>
                             <td>@cliente.Telefone</td>
-                            <td> @cliente.Cpf </td>
+                            <td>@cliente.Cpf</td>
                             <td>
-                                <button class="btn-view"><i class="fi fi-rr-eye"></i></button>
+                                <!-- BOTÃO EDITAR POR LINHA DO CLIENTE -->
+                                <a href="/EditarCliente/@cliente.IdCliente" class="btn-edit">
+                                    <i class="fi fi-rr-edit"></i>
+                                </a>
                             </td>
                         </tr>
                         contador++;
-                    }
-                }
-
-                @code {
-                    private List<Cliente> listaClie = new();
-
-
-                    protected override void OnInitialized()
-                    {
-                        CarregarCliente();
-                    }
-
-                    private void CarregarCliente()
-                    {
-                        listaClie = ClienteDAO.ListarCliente();
                     }
                 }
             </tbody>
         </table>
     </div>
 </div>
+
+@code {
+    private List<Cliente> listaClie = new();
+
+    protected override void OnInitialized()
+    {
+        CarregarCliente();
+    }
+
+    private void CarregarCliente()
+    {
+        listaClie = ClienteDAO.ListarCliente();
+    }
+}
