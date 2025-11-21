@@ -12,7 +12,7 @@ namespace AppBugaoMotoFVLE.Components.Models
         public double Valor { get; set; }
 
 
-
+        public int IdFornecedor { get; set; }
 
     }
 }
