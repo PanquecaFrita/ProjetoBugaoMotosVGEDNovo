@@ -67,5 +67,30 @@ public class ClienteDAO
 
         return listaClie;
     }
+
+    public void DeletarCliente(int id)
+    {
+        try
+        {
+            var comando = _conexao.CreateCommand(
+                @"DELETE FROM Cliente 
+              WHERE id_clie = @_id_clie");
+
+            comando.Parameters.AddWithValue("@_id_clie", id);
+
+            int linhasAfetadas = comando.ExecuteNonQuery();
+
+            if (linhasAfetadas == 0)
+            {
+                throw new Exception("Nenhum cliente encontrado com esse ID.");
+            }
+        }
+        catch (Exception)
+        {
+            throw;
+        }
+    }
+
+
 }
 

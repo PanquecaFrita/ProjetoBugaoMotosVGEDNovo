@@ -55,7 +55,8 @@
 
     <div class="buttons">
         <button type="submit" class="btn-salvar">Salvar</button>
-        <button class="btn-deletar">Deletar</button>
+        <button type="button" class="btn-deletar">Deletar</button>
+
 
     </div>
     </EditForm>
@@ -90,4 +91,26 @@
         }
 
     }
+
+    private void Deletar()
+    {
+        try
+        {
+            if (_novoCliente == null || _novoCliente.IdCli == 0)
+            {
+                throw new Exception("Não é possível deletar: o cliente ainda não foi salvo.");
+            }
+
+            clienteDao.DeletarCliente(_novoCliente.IdCli);
+
+            Navigation.NavigateTo("/ConsultaCliente");
+        }
+        catch (Exception ex)
+        {
+            erro = ex.Message;
+        }
+    }
+
+ 
+
 }
