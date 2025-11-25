@@ -1,0 +1,122 @@
+﻿body {
+    font-family: Arial, sans-serif;
+    background: #f9fafc;
+    margin: 20px;
+}
+
+.container-md {
+    background: #fff;
+    border: 1px solid #c7c7c7;
+    border-radius: 6px;
+    padding: 20px;
+    max-width: 1100px;
+    margin: auto;
+}
+
+/* Breadcrumb */
+.breadcrumb {
+    font-size: 14px;
+    margin-bottom: 10px;
+    color: #666;
+}
+
+    .breadcrumb a {
+        color: #2c3e50;
+        text-decoration: none;
+        font-weight: bold;
+    }
+
+/* Título */
+h2 {
+    font-size: 22px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+/* Barra de busca */
+.search-bar {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+    .search-bar input {
+        flex: 1;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+/* Botões */
+.btn {
+    padding: 10px 15px;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: bold;
+    color: #fff;
+    transition: 0.3s;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.btn-filter {
+    background: #2c3e50;
+}
+
+    .btn-filter:hover {
+        background: #1a242f;
+    }
+
+.btn-add {
+    background: #34495e;
+}
+
+    .btn-add:hover {
+        background: #22313f;
+    }
+
+/* Tabela */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+    table thead {
+        background: #e6e9ed;
+        border-bottom: 2px solid #c7c7c7;
+    }
+
+    table th, table td {
+        padding: 14px 18px;
+        text-align: left;
+        border-bottom: 1px solid #ddd;
+    }
+
+/* Botões de ação */
+.btn-primary {
+    background: #2c7be5;
+    color: #fff;
+    border-radius: 6px;
+    padding: 6px 12px;
+}
+
+    .btn-primary:hover {
+        background: #1a68c7;
+    }
+
+.btn-danger {
+    background: #e63946;
+    color: #fff;
+    border-radius: 6px;
+    padding: 6px 12px;
+}
+
+    .btn-danger:hover {
+        background: #c62834;
+    }

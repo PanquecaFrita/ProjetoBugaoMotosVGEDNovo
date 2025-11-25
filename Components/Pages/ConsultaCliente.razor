@@ -43,21 +43,7 @@
                             <td>@cliente.Cpf</td>
 
                             <td>
-                                <!-- VER / EDITAR / EXCLUIR -->
-                                <button class="btn-view"
-                                        @onclick="() => AbrirFormulario(cliente.IdCliente)">
-                                    <i class="fi fi-rr-eye"></i>
-                                </button>
-
-                                <button class="btn-edit"
-                                        @onclick="() => AbrirFormulario(cliente.IdCliente)">
-                                    <i class="fi fi-rr-edit"></i>
-                                </button>
-
-                                <button class="btn-delete"
-                                        @onclick="() => AbrirFormulario(cliente.IdCliente, true)">
-                                    <i class="fi fi-rr-trash"></i>
-                                </button>
+                               
                             </td>
                         </tr>
 
@@ -69,7 +55,7 @@
     </div>
 </div>
 
-
+@* 
 @if (modalForm)
 {
     <div class="modal-bg">
@@ -108,14 +94,14 @@
 
         </div>
     </div>
-}
+} *@
 
 @code {
     private List<Cliente> listaClie = new();
-    private Cliente clienteSel = new();
+    // private Cliente clienteSel = new();
 
-    private bool modalForm = false;
-    private bool somenteExcluir = false;
+    // private bool modalForm = false;
+    // private bool somenteExcluir = false;
 
     protected override void OnInitialized()
     {
@@ -127,33 +113,33 @@
         listaClie = ClienteDAO.ListarCliente();
     }
 
-    private void AbrirFormulario(int id, bool excluir = false)
-    {
-        clienteSel = ClienteDAO.BuscarClientePorId(id);
-        somenteExcluir = excluir;
+    // private void AbrirFormulario(int id, bool excluir = false)
+    // {
+    //     clienteSel = ClienteDAO.BuscarClientePorId(id);
+    //     somenteExcluir = excluir;
 
-        modalForm = true;
-    }
+    //     modalForm = true;
+    // }
 
-    private void FecharModal()
-    {
-        modalForm = false;
-        somenteExcluir = false;
-    }
+    // private void FecharModal()
+    // {
+    //     modalForm = false;
+    //     somenteExcluir = false;
+    // }
 
-    private void SalvarEdicao()
-    {
-        ClienteDAO.AtualizarCliente(clienteSel);
-        FecharModal();
-        CarregarCliente();
-    }
+    // private void SalvarEdicao()
+    // {
+    //     ClienteDAO.AtualizarCliente(clienteSel);
+    //     FecharModal();
+    //     CarregarCliente();
+    // }
 
-    private void ExcluirCliente()
-    {
-        ClienteDAO.DeletarCliente(clienteSel.IdCliente);
-        FecharModal();
-        CarregarCliente();
-    }
+    // private void ExcluirCliente()
+    // {
+    //     ClienteDAO.DeletarCliente(clienteSel.IdCli);
+    //     FecharModal();
+    //     CarregarCliente();
+    // }
 }
 
 

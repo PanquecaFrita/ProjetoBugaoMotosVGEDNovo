@@ -1,7 +1,7 @@
-﻿@page "/produtos/{Id:int}/editar"
+﻿@page "/produto/{Id:int}/editar"
 @rendermode InteractiveServer
 
-@using AppWeb.Models;
+
 @inject ProdutoDAO produtoDAO;
 @inject NavigationManager Navigation;
 
@@ -17,32 +17,32 @@
     </div>
 }
 
-<EditForm Model="produto" OnSubmit="Salvar">
-    <div class="mb-4">
-        <label for="nome" class="block text-sm font-medium text-gray-700">Nome</label>
-        <input @bind-value="produto.Nome" type="text" id="nome"
-               class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" />
-    </div>
-    <div class="mb-4">
-        <label for="quantidade" class="block text-sm font-medium text-gray-700">Quantidade</label>
-        <input @bind-value="produto.Quantidade" type="number" id="quantidade"
-               class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" />
-    </div>
-    <div class="mb-4">
-        <label for="valor" class="block text-sm font-medium text-gray-700">Valor</label>
-        <input @bind-value="produto.Valor" type="text" id="valor"
-               class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" />
-    </div>
+  <EditForm Model="produto" OnSubmit="Salvar">
+     <div class="mb-4">
+          <label for="nome" class="block text-sm font-medium text-gray-700">Nome</label>
+          <input @bind-value="produto.Nome" type="text" id="nome"
+                 class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" />
+      </div>
+      <div class="mb-4">
+          <label for="quantidade" class="block text-sm font-medium text-gray-700">Quantidade</label>
+          <input @bind-value="produto.Quantidade" type="number" id="quantidade"
+                 class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" />
+      </div>
+      <div class="mb-4">
+          <label for="valor" class="block text-sm font-medium text-gray-700">Valor</label>
+          <input @bind-value="produto.Valor" type="text" id="valor"
+                 class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" />
+      </div>
 
-    <div class="mb-4">
-        <label for="descricao" class="block text-sm font-medium text-gray-700">Descrição</label>
-        <textarea id="descricao"
-                  class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">@produto.Descricao</textarea>
-    </div>
+      <div class="mb-4">
+          <label for="codigo" class="block text-sm font-medium text-gray-700">Codigo</label>
+          <textarea id="codigo"
+                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">@produto.Codigo</textarea>
+      </div>
 
-    <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Salvar</button>
-</EditForm>
-
+      <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Salvar</button>
+  </EditForm>
+ 
 @code {
 
     private string erro = string.Empty;
@@ -51,7 +51,7 @@
     public int Id { get; set; }
 
     [SupplyParameterFromForm]
-    private Produto produto { get; set; } = new();
+    public Produto produto { get; set; } = new();
 
     protected override void OnInitialized()
     {
@@ -73,7 +73,7 @@
         {
             produtoDAO.Atualizar(produto);
 
-            Navigation.NavigateTo("/produtos");
+            Navigation.NavigateTo("/produto");
         }
         catch (Exception ex)
         {
@@ -81,4 +81,5 @@
         }
 
     }
+
 }
