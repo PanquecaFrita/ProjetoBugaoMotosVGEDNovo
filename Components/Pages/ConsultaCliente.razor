@@ -1,4 +1,5 @@
 ﻿@page "/ConsultaCliente"
+@using Microsoft.AspNetCore.Components.Forms
 
 @using AppBugaoMotoFVLE.Components.Models;
 @inject ClienteDAO ClienteDAO;
@@ -42,16 +43,20 @@
                             <td>@cliente.Cpf</td>
 
                             <td>
-                                <!-- OLHINHO (visualizar) -->
+                                <!-- VER / EDITAR / EXCLUIR -->
                                 <button class="btn-view"
-                                        @onclick="() => AbrirVisualizar(cliente.IdCliente)">
+                                        @onclick="() => AbrirFormulario(cliente.IdCliente)">
                                     <i class="fi fi-rr-eye"></i>
                                 </button>
 
-                                <!-- LÁPIS (editar) -->
                                 <button class="btn-edit"
-                                        @onclick="() => AbrirEditar(cliente.IdCliente)">
+                                        @onclick="() => AbrirFormulario(cliente.IdCliente)">
                                     <i class="fi fi-rr-edit"></i>
+                                </button>
+
+                                <button class="btn-delete"
+                                        @onclick="() => AbrirFormulario(cliente.IdCliente, true)">
+                                    <i class="fi fi-rr-trash"></i>
                                 </button>
                             </td>
                         </tr>
@@ -65,63 +70,52 @@
 </div>
 
 
-@* ---------------------- MODAL VISUALIZAR ---------------------- *@
-@if (modalVer)
+@if (modalForm)
 {
     <div class="modal-bg">
-        <div class="modal-box">
-            <h3>Visualizar Cliente</h3>
+        <div class="modal-box form-modal">
 
-            <label>Nome</label>
-            <input class="form-control" value="@clienteSel.Nome" disabled />
-
-            <label>Telefone</label>
-            <input class="form-control" value="@clienteSel.Telefone" disabled />
-
-            <label>CPF</label>
-            <input class="form-control" value="@clienteSel.Cpf" disabled />
-
-            <div class="modal-buttons">
-                <button class="btn-close" @onclick="() => modalVer = false">Fechar</button>
+            <div class="modal-header">
+                <h3>DADOS DO CLIENTE</h3>
+                <button class="close-x" @onclick="FecharModal">X</button>
             </div>
-        </div>
-    </div>
-}
 
+            <div class="modal-body">
 
-@* ---------------------- MODAL EDITAR ---------------------- *@
-@if (modalEdit)
-{
-    <div class="modal-bg">
-        <div class="modal-box">
-            <h3>Editar Cliente</h3>
+                <label>Nome</label>
+                <input class="form-control" @bind="clienteSel.Nome" disabled="@somenteExcluir" />
 
-            <label>Nome</label>
-            <input class="form-control" @bind="clienteSel.Nome" />
+                <label>Telefone</label>
+                <input class="form-control" @bind="clienteSel.Telefone" disabled="@somenteExcluir" />
 
-            <label>Telefone</label>
-            <input class="form-control" @bind="clienteSel.Telefone" />
+                <label>CPF</label>
+                <input class="form-control" @bind="clienteSel.Cpf" disabled="@somenteExcluir" />
 
-            <label>CPF</label>
-            <input class="form-control" @bind="clienteSel.Cpf" />
+            </div>
 
-            <div class="modal-buttons">
-                <button class="btn-edit" @onclick="SalvarEdicao">Salvar</button>
+            <div class="modal-footer">
+
+                @if (!somenteExcluir)
+                {
+                    <button class="btn-edit" @onclick="SalvarEdicao">Editar</button>
+                }
+
                 <button class="btn-delete" @onclick="ExcluirCliente">Excluir</button>
-                <button class="btn-close" @onclick="() => modalEdit = false">Cancelar</button>
+
+                <button class="btn-close" @onclick="FecharModal">Cancelar</button>
+
             </div>
+
         </div>
     </div>
 }
-
-
 
 @code {
     private List<Cliente> listaClie = new();
     private Cliente clienteSel = new();
 
-    private bool modalVer = false;
-    private bool modalEdit = false;
+    private bool modalForm = false;
+    private bool somenteExcluir = false;
 
     protected override void OnInitialized()
     {
@@ -133,29 +127,112 @@
         listaClie = ClienteDAO.ListarCliente();
     }
 
-    private void AbrirVisualizar(int id)
+    private void AbrirFormulario(int id, bool excluir = false)
     {
         clienteSel = ClienteDAO.BuscarClientePorId(id);
-        modalVer = true;
+        somenteExcluir = excluir;
+
+        modalForm = true;
     }
 
-    private void AbrirEditar(int id)
+    private void FecharModal()
     {
-        clienteSel = ClienteDAO.BuscarClientePorId(id);
-        modalEdit = true;
+        modalForm = false;
+        somenteExcluir = false;
     }
 
     private void SalvarEdicao()
     {
         ClienteDAO.AtualizarCliente(clienteSel);
-        modalEdit = false;
+        FecharModal();
         CarregarCliente();
     }
 
     private void ExcluirCliente()
     {
         ClienteDAO.DeletarCliente(clienteSel.IdCliente);
-        modalEdit = false;
+        FecharModal();
         CarregarCliente();
     }
 }
+
+
+
+<style>
+    .modal-bg {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.6);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+    }
+
+    .modal-box {
+        background: white;
+        padding: 20px;
+        width: 600px;
+        border-radius: 8px;
+        animation: fadeIn .2s ease;
+    }
+
+    .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .close-x {
+        background: transparent;
+        border: none;
+        font-size: 22px;
+        cursor: pointer;
+    }
+
+    .modal-body label {
+        margin-top: 10px;
+        font-weight: bold;
+    }
+
+    .modal-body input {
+        margin-bottom: 10px;
+    }
+
+    .modal-footer {
+        margin-top: 15px;
+        display: flex;
+        gap: 10px;
+    }
+
+    .btn-edit {
+        background: #22c55e;
+        color: white;
+        padding: 8px 20px;
+        border-radius: 6px;
+    }
+
+    .btn-delete {
+        background: #ef4444;
+        color: white;
+        padding: 8px 20px;
+        border-radius: 6px;
+    }
+
+    .btn-close {
+        background: #6b7280;
+        color: white;
+        padding: 8px 20px;
+        border-radius: 6px;
+    }
+
+    table button {
+        margin-right: 5px;
+        padding: 6px;
+        border-radius: 5px;
+    }
+
+</style>
