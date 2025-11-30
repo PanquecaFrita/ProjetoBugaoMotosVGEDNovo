@@ -3,6 +3,7 @@
 
 @using AppBugaoMotoFVLE.Components.Models;
 @inject ProdutoDAO produtoDAO;
+@inject FornecedorDAO fornecedorDAO;
 @inject NavigationManager Navigation;
 
 @if (erro != null)
@@ -11,22 +12,56 @@
         @erro
     </div>
 }
-<div class="border p-4 rounded">
+
+<div class="border p-4 rounded container">
     <div class="breadcrumb ">
         <a href="#">Home</a> > <a href="#">Cadastrar: Produto</a>
     </div>
+
     <div class="border-left">
         <h3>Cadastro do produto</h3>
         <p>Preencha todas as informações corretamente</p>
     </div>
 
-    <EditForm Model="_novoProduto" OnSubmit="Salvar">
-        <input @bind-value="_novoProduto!.Nome" type="text" placeholder="Nome do Produto">
+    <EditForm Model="_novoProduto" OnValidSubmit="Salvar">
+
+        <input @bind-value="_novoProduto.Nome"
+               type="text"
+               placeholder="Nome do Produto">
 
         <div class="row">
-            <div><input @bind-value="_novoProduto!.Codigo" type="text" placeholder="Código"></div>
-            <div><input @bind-value="_novoProduto!.Quantidade" type="number" placeholder="Quantidade"></div>
-            <div><input @bind-value="_novoProduto!.Valor" type="number" step="0.01" placeholder="Valor (R$)"></div>
+            <div>
+                <input @bind-value="_novoProduto.Codigo"
+                       type="text"
+                       placeholder="Código">
+            </div>
+
+            <div>
+                <input @bind-value="_novoProduto.Quantidade"
+                       type="number"
+                       placeholder="Quantidade">
+            </div>
+
+            <div>
+                <input @bind-value="_novoProduto.Valor"
+                       type="number"
+                       step="0.01"
+                       placeholder="Valor (R$)">
+            </div>
+        </div>
+
+        <!-- CAMPO DE FORNECEDOR CORRIGIDO -->
+        <div class="row">
+            <div>
+                <select @bind-value="_novoProduto.IdFornecedor">
+                    <option value="0">Selecione um fornecedor...</option>
+
+                    @foreach (var f in fornecedores)
+                    {
+                        <option value="@f.Id">@f.Nome</option>
+                    }
+                </select>
+            </div>
         </div>
 
         <div class="buttons">
@@ -38,17 +73,24 @@
 
 @code {
     private string? erro = null;
-    [SupplyParameterFromForm]
-    private Produto? _novoProduto { get; set; } = new Produto();
+    private List<Fornecedor> fornecedores = new();
 
-    private void Salvar(EditContext context)
+    private Produto _novoProduto { get; set; } = new Produto();
+
+    protected override void OnInitialized()
+    {
+        fornecedores = fornecedorDAO.ListarFornecedores();
+    }
+
+    private void Salvar()
     {
         try
         {
             if (string.IsNullOrWhiteSpace(_novoProduto.Nome))
-            {
                 throw new Exception("O campo Nome é obrigatório");
-            }
+
+            if (_novoProduto.IdFornecedor == 0)
+                throw new Exception("Selecione um fornecedor válido");
 
             produtoDAO.InserirProduto(_novoProduto);
             Navigation.NavigateTo("/Estoque");
@@ -58,5 +100,4 @@
             erro = ex.Message;
         }
     }
-
 }
