@@ -53,7 +53,7 @@
         <!-- CAMPO DE FORNECEDOR CORRIGIDO -->
         <div class="row">
             <div>
-                <select @bind-value="_novoProduto.IdFornecedor">
+                <select @bind="_novoProduto.IdFornecedor">
                     <option value="0">Selecione um fornecedor...</option>
 
                     @foreach (var f in fornecedores)
@@ -93,7 +93,7 @@
                 throw new Exception("Selecione um fornecedor válido");
 
             produtoDAO.InserirProduto(_novoProduto);
-            Navigation.NavigateTo("/Estoque");
+            Navigation.NavigateTo("/ConsultaProduto");
         }
         catch (Exception ex)
         {
