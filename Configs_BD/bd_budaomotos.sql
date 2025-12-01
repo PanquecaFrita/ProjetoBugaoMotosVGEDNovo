@@ -1,4 +1,4 @@
-﻿CREATE DATABASE bd_bugaomotos;
+﻿CREATE DATABASE IF NOT EXISTS bd_bugaomotos;
 USE bd_bugaomotos;
 
 -- ===========================
@@ -38,7 +38,7 @@ CREATE TABLE fornecedor (
 );
 
 -- ===========================
--- TABELA PRODUTO (FK CORRIGIDA)
+-- TABELA PRODUTO
 -- ===========================
 CREATE TABLE produto (
     id_prod INT PRIMARY KEY AUTO_INCREMENT,
@@ -64,11 +64,33 @@ CREATE TABLE servico (
 
 -- ===========================
 -- TABELA VENDA
+-- (Venda pode ter cliente, produto e/ou serviço)
 -- ===========================
 CREATE TABLE venda (
     id_ven INT PRIMARY KEY AUTO_INCREMENT,
-    nome_ser VARCHAR(300),
-    codigo_ser VARCHAR(300),
-    prestador_ser VARCHAR(300),
-    valor_ser INT
+    id_clie_fk INT,
+    id_prod_fk INT NULL,
+    id_ser_fk INT NULL,
+    quantidade INT DEFAULT 1,
+    valor_total DECIMAL(10,2),
+    data_venda DATETIME DEFAULT NOW(),
+
+    CONSTRAINT fk_venda_cliente FOREIGN KEY (id_clie_fk) REFERENCES cliente(id_clie),
+    CONSTRAINT fk_venda_produto FOREIGN KEY (id_prod_fk) REFERENCES produto(id_prod),
+    CONSTRAINT fk_venda_servico FOREIGN KEY (id_ser_fk) REFERENCES servico(id_ser)
+);
+
+-- ===========================
+-- TABELA CAIXA
+-- (Registra entrada e saída ligada a uma venda)
+-- ===========================
+CREATE TABLE caixa (
+    id_caixa INT PRIMARY KEY AUTO_INCREMENT,
+    id_ven_fk INT,
+    tipo_movimento ENUM('ENTRADA','SAIDA'),
+    valor_movimento DECIMAL(10,2),
+    descricao VARCHAR(300),
+    data_movimento DATETIME DEFAULT NOW(),
+
+    CONSTRAINT fk_caixa_venda FOREIGN KEY (id_ven_fk) REFERENCES venda(id_ven)
 );

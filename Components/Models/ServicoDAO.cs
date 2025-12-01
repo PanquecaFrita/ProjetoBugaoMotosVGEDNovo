@@ -1,7 +1,6 @@
 ﻿using AppBugaoMotoFVLE.Components.Models;
 using AppBugaoMotoFVLE.Configs;
 
-
 namespace AppBugaoMotoFVLE.Components.Models
 {
     public class ServicoDAO
@@ -15,50 +14,40 @@ namespace AppBugaoMotoFVLE.Components.Models
 
         public void InserirServico(Servico servico)
         {
-            try
-            {
-                var comando = _conexao.CreateCommand("INSERT INTO Serviço VALUES (null, @_nome_ser, @_codigo_ser, @_prestador_ser, @_valor_ser)");
-                comando.Parameters.AddWithValue("@_nome_ser", servico.Nome);
-                comando.Parameters.AddWithValue("@_codigo_ser", servico.Codigo);
-                comando.Parameters.AddWithValue("@_prestador_ser", servico.Prestador);
-                comando.Parameters.AddWithValue("@_valor_ser", servico.Valor);
+            var comando = _conexao.CreateCommand(
+                "INSERT INTO servico (nome_ser, codigo_ser, prestador_ser, valor_ser) " +
+                "VALUES (@_nome_ser, @_codigo_ser, @_prestador_ser, @_valor_ser)");
 
-                comando.ExecuteNonQuery();
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            comando.Parameters.AddWithValue("@_nome_ser", servico.Nome);
+            comando.Parameters.AddWithValue("@_codigo_ser", servico.Codigo);
+            comando.Parameters.AddWithValue("@_prestador_ser", servico.Prestador);
+            comando.Parameters.AddWithValue("@_valor_ser", servico.Valor);
+
+            comando.ExecuteNonQuery();
         }
 
-        public List<Servico> ListarServico()
+        public List<Servico> ListarTodos()
         {
             var lista = new List<Servico>();
 
-            var comando = _conexao.CreateCommand("SELECT * FROM Serviço");
+            var comando = _conexao.CreateCommand("SELECT * FROM servico");
             var leitor = comando.ExecuteReader();
 
             while (leitor.Read())
             {
                 var servico = new Servico
                 {
-                    IdSer = leitor.GetInt32("id_ser"),
+                    Id = leitor.GetInt32("id_ser"),
                     Nome = DAOHelper.GetString(leitor, "nome_ser"),
                     Codigo = DAOHelper.GetString(leitor, "codigo_ser"),
                     Prestador = DAOHelper.GetString(leitor, "prestador_ser"),
-                    Valor = leitor.GetDouble("valor_ser"),
-
+                    Valor = leitor.GetDouble("valor_ser")
                 };
-                //IdSer = leitor.GetInt32("id_ser");
-                //servico.Nome = DAOHelper.GetString(leitor, "nome_ser");
-                //servico.Codigo = DAOHelper.GetString(leitor, "codigo_ser");
-                //servico.Prestador = DAOHelper.GetString(leitor, "prestador_ser");
-                //servico.Valor = leitor.GetDouble("valor_ser");
 
                 lista.Add(servico);
             }
+
             return lista;
         }
     }
 }
-
