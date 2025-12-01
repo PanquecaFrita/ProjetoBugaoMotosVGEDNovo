@@ -8,24 +8,22 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
+// Registro das dependências (singleton e scoped)
 builder.Services.AddSingleton<Conexao>();
 builder.Services.AddSingleton<FornecedorDAO>();
-
-// ✅ Registro do ClienteDAO
 builder.Services.AddScoped<ClienteDAO>();
+builder.Services.AddScoped<ProdutoDAO>();
+builder.Services.AddScoped<ServicoDAO>();
 
-builder.Services.AddScoped<ProdutoDAO>(); // ✅ ADICIONE ESTA LINHA
-builder.Services.AddScoped<ServicoDAO>(); // ✅ ADICIONE ESTA LINHA
-
-
-// builder.Services.AddScoped<ProdutoDAO>();
+// Adiciona suporte para Controllers e Views (para utilizar Controllers de Ação)
+builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
-    app.UseExceptionHandler("/Error", createScopeForErrors: true);
+    app.UseExceptionHandler("/Error");
     app.UseHsts();
 }
 
@@ -33,7 +31,14 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseAntiforgery();
 
+// Roteamento para Controllers
+app.MapControllerRoute(
+    name: "default",
+    pattern: "{controller=Home}/{action=Index}/{id?}");
+
+// Configuração dos Razor Components (se necessário para sua aplicação)
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
+// Inicia a aplicação
 app.Run();
