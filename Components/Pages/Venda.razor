@@ -8,7 +8,6 @@
 
 <div class="container-md pt-4 d-grid gap-4">
 
-    <!-- Abas -->
     <ul class="nav nav-tabs" role="tablist">
         <li class="nav-item">
             <a class="nav-link active" data-bs-toggle="tab" href="#tabServico">Adicionar Serviços</a>
@@ -23,7 +22,6 @@
         </li>
     </ul>
 
-    <!-- Conteúdo -->
     <div class="tab-content border">
 
         <!-- ====================== SERVIÇO ====================== -->
@@ -40,7 +38,7 @@
                         <option value="">Selecione...</option>
                         @foreach (var s in servicos)
                         {
-                            <option value="@s.Id">@s.Nome (@s.Valor:C)</option>
+                            <option value="@s.IdSer">@s.Nome (@s.Valor:C)</option>
                         }
                     </select>
                 </div>
@@ -52,7 +50,6 @@
                 </div>
             </div>
 
-            <!-- Tabela Serviços -->
             <table class="table mt-3 table-hover">
                 <thead class="table-dark">
                     <tr>
@@ -99,7 +96,7 @@
                         <option value="">Selecione...</option>
                         @foreach (var p in produtos)
                         {
-                            <option value="@p.Id">@p.Nome (@p.Valor:C)</option>
+                            <option value="@p.IdProduto">@p.Nome (@p.Valor:C)</option>
                         }
                     </select>
                 </div>
@@ -116,7 +113,6 @@
                 </div>
             </div>
 
-            <!-- Tabela Produto -->
             <table class="table mt-3 table-hover">
                 <thead class="table-dark">
                     <tr>
@@ -171,7 +167,7 @@
                         <option value="">Selecione...</option>
                         @foreach (var c in clientes)
                         {
-                            <option value="@c.Id">@c.Nome</option>
+                            <option value="@c.IdCli">@c.Nome</option>
                         }
                     </select>
                 </div>
@@ -204,12 +200,10 @@
 
 @code {
 
-    // ========= CARREGAMENTO ===========
     List<Servico> servicos = new();
     List<Produto> produtos = new();
     List<Cliente> clientes = new();
 
-    // ========= VENDA ===========
     List<VendaServico> servicosVenda = new();
     List<VendaProduto> produtosVenda = new();
 
@@ -225,12 +219,11 @@
 
     protected override async Task OnInitializedAsync()
     {
-        servicos = await servicoDAO.ListarTodos();
-        produtos = await produtoDAO.ListarTodos();
-        clientes = await clienteDAO.ListarTodos();
+        servicos = servicoDAO.ListarTodos();
+        produtos = produtoDAO.ListarTodos();
+        clientes = clienteDAO.ListarCliente();
     }
 
-    // ========= ADICIONAR SERVIÇO ===========
     void AdicionarServico()
     {
         var s = servicos.FirstOrDefault(x => x.IdSer.ToString() == servicoSelecionadoId);
@@ -252,18 +245,20 @@
         totalServicos -= s.Valor;
     }
 
-    // ========= ADICIONAR PRODUTO ===========
     void AdicionarProduto()
     {
         var p = produtos.FirstOrDefault(x => x.IdProduto.ToString() == produtoSelecionadoId);
         if (p == null) return;
 
+        decimal valorUnitario = Convert.ToDecimal(p.Valor);
+        decimal valorTotal = quantidadeProduto * valorUnitario;
+
         var novo = new VendaProduto
             {
                 Produto = p.Nome,
                 Quantidade = quantidadeProduto,
-                ValorUnitario = p.Valor,
-                ValorTotal = quantidadeProduto * p.Valor,
+                ValorUnitario = valorUnitario,
+                ValorTotal = valorTotal,
                 Status = true
             };
 
@@ -277,9 +272,14 @@
         totalProdutos -= p.ValorTotal;
     }
 
-    // ========= FINALIZAR VENDA ===========
     async Task FinalizarVenda()
     {
+        if (string.IsNullOrEmpty(clienteSelecionadoId))
+        {
+            Console.WriteLine("Selecione um cliente!");
+            return;
+        }
+
         var venda = new Venda
             {
                 DataVenda = dataVenda,
@@ -291,13 +291,18 @@
         foreach (var s in servicosVenda)
         {
             s.IdVenda = idVenda;
+            s.Servico = s.Servico ?? "";
             vendaDAO.SalvarServico(s);
         }
 
         foreach (var p in produtosVenda)
         {
             p.IdVenda = idVenda;
+            p.ValorUnitario = Convert.ToDecimal(p.ValorUnitario);
+            p.ValorTotal = p.Quantidade * p.ValorUnitario;
+            p.Produto = p.Produto ?? "";
             vendaDAO.SalvarProduto(p);
         }
     }
+
 }

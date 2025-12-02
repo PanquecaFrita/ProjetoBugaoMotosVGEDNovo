@@ -40,7 +40,33 @@ public class ClienteDAO
             throw;
         }
     }
-    //Eduardo arrumou
+    ////Eduardo arrumou
+    //public List<Cliente> ListarCliente()
+    //{
+    //    var listaClie = new List<Cliente>();
+    //    var comando = _conexao.CreateCommand("SELECT * FROM Cliente");
+    //    var leitor = comando.ExecuteReader();
+
+    //    while (leitor.Read())
+    //    {
+    //        //ERRO AQUI
+    //        var cliente = new Cliente();
+    //        cliente.IdCli = leitor.GetInt32("id_clie");
+    //        cliente.Nome = DAOHelper.GetString(leitor, "nome_clie");
+    //        cliente.Telefone = DAOHelper.GetString(leitor, "telefone_clie");
+    //        cliente.Estado = DAOHelper.GetString(leitor, "estado_clie");
+    //        cliente.Cpf = DAOHelper.GetString(leitor, "cpf_clie");
+    //        cliente.Cidade = DAOHelper.GetString(leitor, "cidade_clie");
+    //        cliente.Complemento = DAOHelper.GetString(leitor, "complemento_clie");
+    //        cliente.Bairro = DAOHelper.GetString(leitor, "bairro_clie");
+    //        cliente.Rua = DAOHelper.GetString(leitor, "rua_clie");
+    //        cliente.Cep = DAOHelper.GetString(leitor, "cep_clie");
+
+    //        listaClie.Add(cliente);
+    //    }
+
+    //    return listaClie;
+    //}
     public List<Cliente> ListarCliente()
     {
         var listaClie = new List<Cliente>();
@@ -49,9 +75,8 @@ public class ClienteDAO
 
         while (leitor.Read())
         {
-            //ERRO AQUI
             var cliente = new Cliente();
-            cliente.IdCli = leitor.GetInt32("id_clie");
+            cliente.IdCli = Convert.ToInt32(leitor["id_clie"]);
             cliente.Nome = DAOHelper.GetString(leitor, "nome_clie");
             cliente.Telefone = DAOHelper.GetString(leitor, "telefone_clie");
             cliente.Estado = DAOHelper.GetString(leitor, "estado_clie");
