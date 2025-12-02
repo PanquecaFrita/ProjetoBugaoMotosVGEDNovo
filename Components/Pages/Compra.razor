@@ -1,4 +1,4 @@
-﻿@* @page "/venda"
+﻿@page "/venda"
 @inject ServicoDAO servicoDAO
 @inject ProdutoDAO produtoDAO
 @inject ClienteDAO clienteDAO
@@ -220,8 +220,8 @@
     int quantidadeProduto = 1;
     DateTime dataVenda = DateTime.Today;
 
-    decimal totalServicos = 0;
-    decimal totalProdutos = 0;
+    double totalServicos = 0;
+    double totalProdutos = 0;
 
     protected override async Task OnInitializedAsync()
     {
@@ -252,14 +252,14 @@
         totalServicos -= s.Valor;
     }
 
-    // ========= ADICIONAR PRODUTO ===========
+        // ========= ADICIONAR PRODUTO ===========
     void AdicionarProduto()
     {
         var p = produtos.FirstOrDefault(x => x.IdProduto.ToString() == produtoSelecionadoId);
         if (p == null) return;
 
-        decimal valorUnitario = Convert.ToDecimal(p.Valor);   // conversão segura
-        decimal valorTotal = quantidadeProduto * valorUnitario;
+        double valorUnitario = Convert.ToDouble(p.Valor);  
+        double valorTotal = quantidadeProduto * valorUnitario;
 
         var novo = new VendaProduto
             {
@@ -285,8 +285,8 @@
     {
         var venda = new Venda
             {
-                DataVenda = dataVenda,   // DateTime
-                ValorTotal = totalServicos + totalProdutos  // decimal
+                DataVenda = dataVenda,
+                ValorTotal = totalServicos + totalProdutos
             };
 
         int idVenda = vendaDAO.CriarVenda(venda);
@@ -305,4 +305,3 @@
     }
 
 }
- *@

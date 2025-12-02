@@ -5,7 +5,7 @@
         public int Id { get; set; }
         public int IdVenda { get; set; }
         public string Servico { get; set; }
-        public decimal Valor { get; set; }
+        public double Valor { get; set; }
         public bool Status { get; set; }
     }
 
