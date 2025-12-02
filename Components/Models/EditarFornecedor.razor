@@ -1,0 +1,148 @@
+﻿@page "/fornecedores/{Id:int}/editar"
+@rendermode InteractiveServer
+
+@using AppBugaoMotoFVLE.Components.Models;
+@inject FornecedorDAO fornecedorDAO;
+@inject NavigationManager Navigation;
+
+<PageTitle>Fornecedor</PageTitle>
+
+<h1 class="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-6">
+    Editar Fornecedor - @fornecedor.Nome
+</h1>
+
+@if (erro != string.Empty)
+{
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4">
+        <strong class="font-bold">Erro:</strong>
+        <span>@erro</span>
+    </div>
+}
+
+<EditForm Model="fornecedor" OnSubmit="Salvar">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+        <div>
+            <label>Nome</label>
+            <input @bind-value="fornecedor.Nome" class="border p-2 w-full rounded" />
+        </div>
+
+        <div>
+            <label>Responsável</label>
+            <input @bind-value="fornecedor.Responsavel" class="border p-2 w-full rounded" />
+        </div>
+
+        <div>
+            <label>Razão Social</label>
+            <input @bind-value="fornecedor.RazaoSocial" class="border p-2 w-full rounded" />
+        </div>
+
+        <div>
+            <label>CNPJ</label>
+            <input @bind-value="fornecedor.CNPJ" class="border p-2 w-full rounded" />
+        </div>
+
+        <div>
+            <label>CEP</label>
+            <input @bind-value="fornecedor.CEP" class="border p-2 w-full rounded" />
+        </div>
+
+        <div>
+            <label>Rua</label>
+            <input @bind-value="fornecedor.Rua" class="border p-2 w-full rounded" />
+        </div>
+
+        <div>
+            <label>Bairro</label>
+            <input @bind-value="fornecedor.Bairro" class="border p-2 w-full rounded" />
+        </div>
+
+        <div>
+            <label>Cidade</label>
+            <input @bind-value="fornecedor.Cidade" class="border p-2 w-full rounded" />
+        </div>
+
+        <div>
+            <label>Estado</label>
+            <input @bind-value="fornecedor.Estado" class="border p-2 w-full rounded" />
+        </div>
+
+        <div>
+            <label>Número</label>
+            <input @bind-value="fornecedor.NumeroCasaApt" class="border p-2 w-full rounded" />
+        </div>
+
+        <div>
+            <label>Complemento</label>
+            <input @bind-value="fornecedor.Complemento" class="border p-2 w-full rounded" />
+        </div>
+
+        <div>
+            <label>Telefone Empresa</label>
+            <input @bind-value="fornecedor.TelefoneEmp" class="border p-2 w-full rounded" />
+        </div>
+
+        <div>
+            <label>Telefone Residencial</label>
+            <input @bind-value="fornecedor.TelefoneRes" class="border p-2 w-full rounded" />
+        </div>
+
+    </div>
+
+    <div class="mt-6 flex gap-4">
+        <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">
+            Salvar
+        </button>
+
+        <button type="button" @onclick="Excluir" class="bg-red-500 text-white px-4 py-2 rounded">
+            Excluir
+        </button>
+    </div>
+</EditForm>
+
+@code {
+    private string erro = string.Empty;
+
+    [Parameter]
+    public int Id { get; set; }
+
+    private Fornecedor fornecedor { get; set; } = new();
+
+    protected override void OnInitialized()
+    {
+        var f = fornecedorDAO.BuscarPorId(Id);
+
+        if (f != null)
+            fornecedor = f;
+        else
+            erro = "Fornecedor não encontrado.";
+    }
+
+    private void Salvar()
+    {
+        try
+        {
+            fornecedorDAO.AtualizarFornecedor(fornecedor);
+
+            Navigation.NavigateTo("/fornecedores");
+        }
+        catch (Exception ex)
+        {
+            erro = $"Erro ao salvar o fornecedor: {ex.Message}";
+        }
+    }
+
+    private void Excluir()
+    {
+        try
+        {
+            fornecedorDAO.ExcluirFornecedor(fornecedor.Id);
+
+            Navigation.NavigateTo("/fornecedores");
+        }
+        catch (Exception ex)
+        {
+            erro = $"Erro ao excluir o fornecedor: {ex.Message}";
+        }
+    }
+}

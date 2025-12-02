@@ -155,6 +155,40 @@ WHERE
             }
         }
 
+        public Fornecedor? BuscarPorId(int id)
+        {
+            var comando = _conexao.CreateCommand(@"
+        SELECT * FROM fornecedor
+        WHERE id_forne = @_id_forne
+        LIMIT 1");
+
+            comando.Parameters.AddWithValue("@_id_forne", id);
+
+            var leitor = comando.ExecuteReader();
+
+            if (leitor.Read())
+            {
+                return new Fornecedor
+                {
+                    Id = leitor.GetInt32("id_forne"),
+                    Nome = DAOHelper.GetString(leitor, "nome_forne"),
+                    Responsavel = DAOHelper.GetString(leitor, "nome_responsa_forne"),
+                    CEP = DAOHelper.GetString(leitor, "cep_forne"),
+                    CNPJ = DAOHelper.GetString(leitor, "cnpj_forne"),
+                    TelefoneRes = DAOHelper.GetString(leitor, "telefone_respon_forne"),
+                    Rua = DAOHelper.GetString(leitor, "rua_forne"),
+                    Bairro = DAOHelper.GetString(leitor, "bairro_forne"),
+                    Cidade = DAOHelper.GetString(leitor, "cidade_forne"),
+                    Estado = DAOHelper.GetString(leitor, "estado_forne"),
+                    NumeroCasaApt = DAOHelper.GetString(leitor, "numero_forne"),
+                    Complemento = DAOHelper.GetString(leitor, "complemento_forne"),
+                    RazaoSocial = DAOHelper.GetString(leitor, "razao_social_forne"),
+                    TelefoneEmp = DAOHelper.GetString(leitor, "telefone_forne")
+                };
+            }
+
+            return null;
+        }
 
         public void ExcluirFornecedor(int idFornecedor)
         {
