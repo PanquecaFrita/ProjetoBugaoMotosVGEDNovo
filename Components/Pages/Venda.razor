@@ -1,4 +1,4 @@
-﻿@* @page "/venda"
+﻿@page "/venda"
 @inject ServicoDAO servicoDAO
 @inject ProdutoDAO produtoDAO
 @inject ClienteDAO clienteDAO
@@ -233,7 +233,7 @@
     // ========= ADICIONAR SERVIÇO ===========
     void AdicionarServico()
     {
-        var s = servicos.FirstOrDefault(x => x.Id.ToString() == servicoSelecionadoId);
+        var s = servicos.FirstOrDefault(x => x.IdSer.ToString() == servicoSelecionadoId);
         if (s == null) return;
 
         servicosVenda.Add(new VendaServico
@@ -255,7 +255,7 @@
     // ========= ADICIONAR PRODUTO ===========
     void AdicionarProduto()
     {
-        var p = produtos.FirstOrDefault(x => x.Id.ToString() == produtoSelecionadoId);
+        var p = produtos.FirstOrDefault(x => x.IdProduto.ToString() == produtoSelecionadoId);
         if (p == null) return;
 
         var novo = new VendaProduto
@@ -301,4 +301,3 @@
         }
     }
 }
- *@

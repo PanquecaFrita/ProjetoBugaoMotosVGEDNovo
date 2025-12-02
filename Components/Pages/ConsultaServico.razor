@@ -1,4 +1,4 @@
-﻿@* @page "/ConsultaServico"
+﻿@page "/ConsultaServico"
 
 @using AppBugaoMotoFVLE.Components.Models
 @inject ServicoDAO servicoDAO
@@ -67,7 +67,6 @@
 
     private void CarregarServico()
     {
-        listaServico = servicoDAO.ListarServico();
+        listaServico = servicoDAO.ListarTodos();
     }
 }
- *@

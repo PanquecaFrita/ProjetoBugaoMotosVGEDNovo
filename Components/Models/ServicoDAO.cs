@@ -37,7 +37,7 @@ namespace AppBugaoMotoFVLE.Components.Models
             {
                 var servico = new Servico
                 {
-                    Id = leitor.GetInt32("id_ser"),
+                    IdSer = leitor.GetInt32("id_ser"),
                     Nome = DAOHelper.GetString(leitor, "nome_ser"),
                     Codigo = DAOHelper.GetString(leitor, "codigo_ser"),
                     Prestador = DAOHelper.GetString(leitor, "prestador_ser"),
