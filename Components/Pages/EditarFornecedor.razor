@@ -1,11 +1,11 @@
-﻿@page "/fornecedores/{Id:int}/editar"
+﻿@page "/fornecedor/{Id:int}/editar"
 @rendermode InteractiveServer
 
 @using AppBugaoMotoFVLE.Components.Models;
 @inject FornecedorDAO fornecedorDAO;
 @inject NavigationManager Navigation;
 
-<PageTitle>Fornecedor</PageTitle>
+<PageTitle>Fornecedores</PageTitle>
 
 <h1 class="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-6">
     Editar Fornecedor - @fornecedor.Nome

@@ -36,49 +36,14 @@
                             <td> @fornecedor.RazaoSocial </td>
                             <td> @fornecedor.Responsavel </td>
                             <td> @fornecedor.TelefoneEmp </td>
-                            @*<td>
-                                <button class="btn-view"><i class="fi fi-rr-eye"></i></button>
-                            </td>*@
-
-                            <form action="/fornecedor/@fornecedor.Id/editar" method="post">
-                                <input type="hidden" name="_method" value="PUT" />  <!-- Simula o método PUT -->
-
-                                <div class="form-group">
-                                    <label for="nome_forne">Nome do Fornecedor</label>
-                                    <input type="text" class="form-control" id="nome_forne" name="nome_forne" value="@fornecedor.Nome" required>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="nome_responsa_forne">Responsável</label>
-                                    <input type="text" class="form-control" id="nome_responsa_forne" name="nome_responsa_forne" value="@fornecedor.Responsavel" required>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="telefone_forne">Telefone</label>
-                                    <input type="tel" class="form-control" id="telefone_forne" name="telefone_forne" value="@fornecedor.TelefoneEmp" required>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="cnpj_forne">CNPJ</label>
-                                    <input type="text" class="form-control" id="cnpj_forne" name="cnpj_forne" value="@fornecedor.CNPJ" required>
-                                </div>
-
-                                <div class="form-group">
-                                    <label for="cep_forne">CEP</label>
-                                    <input type="text" class="form-control" id="cep_forne" name="cep_forne" value="@fornecedor.CEP" required>
-                                </div>
-
-                                <!-- Adicione outros campos conforme necessário, como endereço, cidade, estado, etc. -->
-
-                                <button type="submit" class="btn btn-primary">Atualizar Fornecedor</button>
-                            </form>
-
-                            <form action="/fornecedor/@fornecedor.Id/excluir" method="post" onsubmit="return confirm('Tem certeza que deseja excluir este fornecedor?');">
-                                <input type="hidden" name="_method" value="DELETE" />
-                                <button type="submit" class="btn btn-sm btn-danger">
+                            <td>
+                                <a href="/fornecedor/@fornecedor.Id/editar" class="btn btn-sm btn-primary mr-2">
+                                    <i class="fas fa-edit"></i> Atualizar
+                                </a>
+                                <a href="/fornecedor/@fornecedor.Id/excluir" class="btn btn-sm btn-danger">
                                     <i class="fas fa-trash"></i> Excluir
-                                </button>
-                            </form>
+                                </a>
+                            </td>
 
                         </tr>
                         contador ++;
