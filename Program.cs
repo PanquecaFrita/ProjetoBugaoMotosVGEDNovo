@@ -14,6 +14,7 @@ builder.Services.AddSingleton<FornecedorDAO>();
 builder.Services.AddScoped<ClienteDAO>();
 builder.Services.AddScoped<ProdutoDAO>();
 builder.Services.AddScoped<ServicoDAO>();
+builder.Services.AddScoped<VendaDAO>();
 
 // Adiciona suporte para Controllers e Views (para utilizar Controllers de Ação)
 builder.Services.AddControllersWithViews();
