@@ -1,0 +1,82 @@
+﻿@page "/cliente/{Id:int}/excluir"
+@rendermode InteractiveServer
+
+@inject ClienteDAO clienteDAO
+@inject NavigationManager Navigation
+
+<PageTitle>Cliente</PageTitle>
+
+<div class="form-container">
+
+    <h1 class="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-6">
+        Exclusão de Cliente
+    </h1>
+
+    @if (!string.IsNullOrEmpty(erro))
+    {
+        <div class="alert-error">
+            <strong>Erro:</strong> @erro
+        </div>
+    }
+
+    <EditForm Model="cliente" OnSubmit="Excluir">
+
+        <div class="alert-error">
+            <strong class="font-bold">Atenção!</strong>
+            <p>Esta ação não pode ser desfeita.</p>
+
+            <p class="text-lg mt-2">
+                Tem certeza que deseja excluir o cliente
+                <strong>@cliente.Nome</strong>?
+            </p>
+        </div>
+
+        <button type="submit" class="btn-submit bg-red-600 hover:bg-red-700">
+            Excluir
+        </button>
+
+        <a href="/cliente" class="btn-submit bg-gray-600 hover:bg-gray-700 mt-2 inline-block text-center">
+            Cancelar
+        </a>
+
+    </EditForm>
+
+</div>
+
+@code {
+
+    private string erro = string.Empty;
+
+    [Parameter]
+    public int Id { get; set; }
+
+    private Cliente cliente { get; set; } = new();
+
+    protected override void OnInitialized()
+    {
+        var _cliente = clienteDAO.BuscarClientePorId(Id);
+
+        if (_cliente != null)
+        {
+            cliente = _cliente;
+        }
+        else
+        {
+            erro = "Cliente não encontrado.";
+        }
+    }
+
+    private void Excluir()
+    {
+        try
+        {
+            clienteDAO.DeletarCliente(cliente.IdCli);
+
+            Navigation.NavigateTo("/ConsultaCliente");
+        }
+        catch (Exception ex)
+        {
+            erro = $"Erro ao excluir o cliente: {ex.Message}";
+        }
+    }
+}
