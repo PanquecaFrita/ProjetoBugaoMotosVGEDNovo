@@ -1,48 +1,75 @@
 ﻿@page "/cliente/{Id:int}/cliente"
 @rendermode InteractiveServer
 
-
-@inject ClienteDAO clienteDAO;
-@inject NavigationManager Navigation;
+@inject ClienteDAO clienteDAO
+@inject NavigationManager Navigation
 
 <PageTitle>Clientes</PageTitle>
 
-<h1 class="text-xl font-semibold text-gray-800 dark:text-gray-100 mb-6">Atualização Cliente - @cliente.Nome</h1>
+<div class="form-container">
 
-@if (erro != string.Empty)
-{
-    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded mb-4" role="alert">
-        <strong class="font-bold">Erro!</strong>
-        <span class="block sm:inline">@erro</span>
-    </div>
-}
+    <h1 class="form-title">Atualização Cliente - @cliente.Nome</h1>
 
-  <EditForm Model="cliente" OnSubmit="Salvar">
-     <div class="mb-4">
-          <label for="nome" class="block text-sm font-medium text-gray-700">Nome</label>
-          <input @bind-value="cliente.Nome" type="text" id="nome"
-                 class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" />
-      </div>
-      <div class="mb-4">
-          <label for="telefone" class="block text-sm font-medium text-gray-700">Telefone</label>
-          <input @bind-value="cliente.Telefone" type="number" id="telefone"
-                 class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" />
-      </div>
-      <div class="mb-4">
-          <label for="estado" class="block text-sm font-medium text-gray-700">Estado</label>
-          <input @bind-value="cliente.Estado" type="text" id="estado"
-                 class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2" />
-      </div>
+    @if (erro != string.Empty)
+    {
+        <div class="alert-error">
+            <strong>Erro:</strong> @erro
+        </div>
+    }
 
-      <div class="mb-4">
-          <label for="cpf" class="block text-sm font-medium text-gray-700">Cpf</label>
-          <textarea id="cpf"
-                    class="mt-1 block w-full border border-gray-300 rounded-md shadow-sm p-2">@cliente.Cpf</textarea>
-      </div>
+    <EditForm Model="cliente" OnSubmit="Salvar">
 
-      <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded">Salvar</button>
-  </EditForm>
- 
+        <div class="input-group">
+            <label for="nome">Nome</label>
+            <input id="nome" type="text" @bind="cliente.Nome" />
+        </div>
+
+        <div class="input-group">
+            <label for="telefone">Telefone</label>
+            <input id="telefone" type="text" @bind="cliente.Telefone" />
+        </div>
+
+        <div class="input-group">
+            <label for="estado">Estado</label>
+            <input id="estado" type="text" @bind="cliente.Estado" />
+        </div>
+
+        <div class="input-group">
+            <label for="cidade">Cidade</label>
+            <input id="cidade" type="text" @bind="cliente.Cidade" />
+        </div>
+
+        <div class="input-group">
+            <label for="bairro">Bairro</label>
+            <input id="bairro" type="text" @bind="cliente.Bairro" />
+        </div>
+
+        <div class="input-group">
+            <label for="rua">Rua</label>
+            <input id="rua" type="text" @bind="cliente.Rua" />
+        </div>
+
+        <div class="input-group">
+            <label for="cep">CEP</label>
+            <input id="cep" type="text" @bind="cliente.Cep" />
+        </div>
+
+        <div class="input-group">
+            <label for="complemento">Complemento</label>
+            <textarea id="complemento" @bind="cliente.Complemento"></textarea>
+        </div>
+
+        <div class="input-group">
+            <label for="cpf">CPF</label>
+            <input id="cpf" type="text" @bind="cliente.Cpf" />
+        </div>
+
+        <button type="submit" class="btn-submit">Salvar</button>
+
+    </EditForm>
+
+</div>
+
 @code {
 
     private string erro = string.Empty;
@@ -50,7 +77,6 @@
     [Parameter]
     public int Id { get; set; }
 
-    [SupplyParameterFromForm]
     public Cliente cliente { get; set; } = new();
 
     protected override void OnInitialized()
@@ -58,13 +84,9 @@
         var _cliente = clienteDAO.BuscarClientePorId(Id);
 
         if (_cliente != null)
-        {
             cliente = _cliente;
-        }
         else
-        {
             erro = "Cliente não encontrado.";
-        }
     }
 
     private void Salvar()
@@ -72,14 +94,12 @@
         try
         {
             clienteDAO.AtualizarCliente(cliente);
-
             Navigation.NavigateTo("/cliente");
         }
         catch (Exception ex)
         {
             erro = $"Erro ao salvar o cliente: {ex.Message}";
         }
-
     }
 
 }

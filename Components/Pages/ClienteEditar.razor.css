@@ -1,0 +1,107 @@
+﻿/* ======= Container da página ======= */
+.form-container {
+    max-width: 750px;
+    margin: 20px auto;
+    padding: 25px;
+    background: #ffffff;
+    border-radius: 10px;
+    border: 1px solid #e5e7eb;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+.dark .form-container {
+    background: #1f2937;
+    border-color: #374151;
+}
+
+/* ====== Título ====== */
+.form-title {
+    font-size: 1.6rem;
+    font-weight: 600;
+    margin-bottom: 25px;
+    color: #111827;
+}
+
+.dark .form-title {
+    color: #f3f4f6;
+}
+
+/* ====== Inputs e Textareas ====== */
+.input-group {
+    margin-bottom: 18px;
+}
+
+    .input-group label {
+        display: block;
+        font-size: 0.9rem;
+        font-weight: 500;
+        margin-bottom: 6px;
+        color: #374151;
+    }
+
+.dark .input-group label {
+    color: #e5e7eb;
+}
+
+.input-group input,
+.input-group textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #d1d5db;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    background: #fff;
+    transition: 0.2s;
+}
+
+.input-group textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+    .input-group input:focus,
+    .input-group textarea:focus {
+        border-color: #3b82f6;
+        box-shadow: 0 0 4px rgba(59, 130, 246, 0.4);
+        outline: none;
+    }
+
+.dark .input-group input,
+.dark .input-group textarea {
+    background: #111827;
+    color: #f3f4f6;
+    border-color: #4b5563;
+}
+
+/* ====== Botão ====== */
+.btn-submit {
+    width: 100%;
+    padding: 12px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.2s;
+}
+
+    .btn-submit:hover {
+        background: #1d4ed8;
+    }
+
+/* ====== Alerta de erro ====== */
+.alert-error {
+    background: #fee2e2;
+    border: 1px solid #ef4444;
+    color: #b91c1c;
+    padding: 12px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+}
+
+.dark .alert-error {
+    background: rgba(153, 27, 27, 0.2);
+    border-color: #ef4444;
+    color: #fca5a5;
+}
