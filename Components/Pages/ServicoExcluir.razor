@@ -80,7 +80,7 @@
         {
             var comando = servicoDAO
                 .GetType()
-                .GetMethod("DeletarServico"); // caso você implemente o delete depois
+                .GetMethod("DeletarServico"); 
 
             if (comando == null)
                 throw new Exception("Método de exclusão não implementado no DAO.");

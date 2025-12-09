@@ -1,4 +1,4 @@
-﻿/* ======= Container da página ======= */
+﻿
 .form-container {
     max-width: 750px;
     margin: 20px auto;
@@ -14,7 +14,7 @@
     border-color: #374151;
 }
 
-/* ====== Título ====== */
+
 .form-title {
     font-size: 1.6rem;
     font-weight: 600;
@@ -26,7 +26,7 @@
     color: #f3f4f6;
 }
 
-/* ====== Inputs e Textareas ====== */
+
 .input-group {
     margin-bottom: 18px;
 }
@@ -73,7 +73,7 @@
     border-color: #4b5563;
 }
 
-/* ====== Botão ====== */
+
 .btn-submit {
     width: 100%;
     padding: 12px;
@@ -90,7 +90,7 @@
         background: #1d4ed8;
     }
 
-/* ====== Alerta de erro ====== */
+
 .alert-error {
     background: #fee2e2;
     border: 1px solid #ef4444;
